@@ -12,34 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cors_1 = __importDefault(require("cors"));
-const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const index_1 = require("./config/index");
-// all routes
-const index_2 = require("./routes/index");
-const PORT = index_1.config.server.PORT;
-const app = (0, express_1.default)();
-// middlewares
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
-// IFFI-> Immediate Invoked Function
-(function startUp() {
+exports.register = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const config_1 = require("../config");
+// error handling
+const LibraryErrors_1 = require("../utils/LibraryErrors");
+const UserDao_1 = __importDefault(require("../daos/UserDao"));
+// register a user
+function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
+        const ROUNDS = config_1.config.server.rounds;
         try {
-            yield mongoose_1.default.connect(index_1.config.mongo.URI, {
-                w: "majority",
-                retryWrites: true,
-                authMechanism: "DEFAULT",
-            });
-            console.log("Connection to MongoDB successfully made");
-            (0, index_2.registerRoutes)(app);
-            app.listen(PORT, () => {
-                console.log(`Server listening on port ${PORT}`);
-            });
+            const hashedPassword = yield bcrypt_1.default.hash(user.password, ROUNDS);
+            const saved = new UserDao_1.default(Object.assign(Object.assign({}, user), { password: hashedPassword }));
+            return yield saved.save();
         }
         catch (error) {
-            console.log("Could not make a connection to the database");
+            throw new LibraryErrors_1.UnableToSaveUserError(error.message);
         }
     });
-})();
+}
+exports.register = register;
