@@ -30,5 +30,11 @@ export const Schemas = {
         .required(),
       password: Joi.string().required(),
     }),
+    login: Joi.object({
+      email: Joi.string()
+        .regex(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)
+        .required(),
+      password: Joi.string().required(),
+    }),
   },
 };
