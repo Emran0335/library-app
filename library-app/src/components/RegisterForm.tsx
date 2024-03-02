@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/ReduxStore";
 import { registerUser } from "../redux/slices/AuthenticationSlice";
 
+import './RegisterForm.css'
+
 export const RegisterForm: React.FC = () => {
   const authState = useSelector((state: RootState) => state.authentication);
   console.log(authState.registeredUser);
@@ -14,7 +16,7 @@ export const RegisterForm: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleRegisterUser = (e: React.MouseEvent<HTMLBRElement>) => {
+  const handleRegisterUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (
@@ -40,57 +42,58 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    <form>
-      <h2>Enter your information</h2>
-      <div className="register-form-name-group">
-        <div className="register-form-name-input-group">
-          <h6>FirstName</h6>
-          <input
-            type="text"
-            name="firstName"
-            className="register-form-input-name"
-            placeholder="firstName"
-            ref={firstNameRef}
-            required
-          />
-        </div>
-        <div className="register-form-name-input-group">
-          <h6>LastName</h6>
-          <input
-            type="text"
-            name="lastName"
-            className="register-form-input-name"
-            placeholder="lastName"
-            ref={lastNameRef}
-            required
-          />
-        </div>
-        <div className="register-form-name-input-group">
-          <h6>Email</h6>
-          <input
-            type="email"
-            name="email"
-            className="register-form-input-name"
-            placeholder="email"
-            ref={emailRef}
-            required
-          />
-        </div>
-        <div className="register-form-name-input-group">
-          <h6>Password</h6>
-          <input
-            type="password"
-            name="password"
-            className="register-form-input-name"
-            placeholder="password"
-            ref={passwordRef}
-            required
-          />
-        </div>
+    <form className="register-form">
+    <h2>Enter your information</h2>
+  
+    <div className="register-form-name-group">
+      <div className="register-form-name-input-group">
+        <h6>First Name</h6>
+        <input
+          className="register-form-input-name"
+          type="text"
+          name="first"
+          placeholder="firstName"
+          ref={firstNameRef}
+          required
+        />
       </div>
-      <button className="register-form-submit" onClick={handleRegisterUser}>
-        Register
-      </button>
-    </form>
+      <div className="register-form-name-input-group">
+        <h6>Last Name</h6>
+        <input
+          className="register-form-input-name"
+          type="text"
+          name="last"
+          placeholder="lastName"
+          ref={lastNameRef}
+          required
+        />
+      </div>
+    </div>
+    <div className="register-form-input-group">
+      <h6>Email</h6>
+      <input
+        className="register-form-input"
+        type="email"
+        name="email"
+        placeholder="email"
+        ref={emailRef}
+        required
+      />
+    </div>
+    <div className="register-form-input-group">
+      <h6>Password</h6>
+      <input
+        className="register-form-input"
+        type="password"
+        name="password"
+        placeholder="passowrd"
+        ref={passwordRef}
+        required
+      />
+    </div>
+    <button className="register-form-submit" onClick={handleRegisterUser}>
+      Register
+    </button>
+  </form>
   );
 };
