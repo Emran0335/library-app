@@ -1,12 +1,19 @@
-import "./App.css";
-import { RegisterForm } from "./components/RegisterForm";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LayoutPage from "./pages/LayoutPage/LayoutPage";
+import HomePage from "./pages/HomePage/HomePage";
 
 function App() {
   return (
-    <div>
-      <h1>My Libary App</h1>
-      <RegisterForm />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LayoutPage />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/catalog" element={"CatalogPage"} />
+          <Route path="/resource/:barcode" element={"ResourcePage"} />
+          <Route path="/profile/:userId" element={"ProfilePage"} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

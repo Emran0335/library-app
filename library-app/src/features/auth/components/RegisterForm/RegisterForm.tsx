@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/ReduxStore";
-import { registerUser } from "../redux/slices/AuthenticationSlice";
+import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
+import { registerUser } from "../../../../redux/slices/AuthenticationSlice";
 
 import './RegisterForm.css'
 
