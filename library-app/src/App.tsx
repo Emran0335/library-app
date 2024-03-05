@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LayoutPage from "./pages/LayoutPage/LayoutPage";
 import HomePage from "./pages/HomePage/HomePage";
+import CatalogPage from "./pages/CatalogPage/CatalogPage";
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LayoutPage />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/catalog" element={"CatalogPage"} />
+          <Route path="/catalog" element={<CatalogPage />} />
           <Route path="/resource/:barcode" element={"ResourcePage"} />
           <Route path="/profile/:userId" element={"ProfilePage"} />
         </Route>

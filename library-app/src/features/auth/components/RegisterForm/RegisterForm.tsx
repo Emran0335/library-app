@@ -3,11 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
 import { registerUser } from "../../../../redux/slices/AuthenticationSlice";
 
-import './RegisterForm.css'
+import "./RegisterForm.css";
 
-export const RegisterForm: React.FC = () => {
+interface LoginRegisterProps {
+  toggleLoginRegister(): void;
+}
+
+export const RegisterForm: React.FC<LoginRegisterProps> = ({
+  toggleLoginRegister,
+}) => {
   const authState = useSelector((state: RootState) => state.authentication);
-  console.log(authState.registeredUser);
+  console.log(authState);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -43,57 +49,71 @@ export const RegisterForm: React.FC = () => {
 
   return (
     <form className="register-form">
-    <h2>Enter your information</h2>
-  
-    <div className="register-form-name-group">
-      <div className="register-form-name-input-group">
-        <h6>First Name</h6>
+      <h2>Enter your information</h2>
+      {authState.error ? (
+        <p className="register-form-error">There was an error</p>
+      ) : (
+        <></>
+      )}
+      <div className="register-form-name-group">
+        <div className="register-form-name-input-group">
+          <h6>First Name</h6>
+          <input
+            className="register-form-input-name"
+            type="text"
+            name="first"
+            placeholder="firstName"
+            ref={firstNameRef}
+            required
+          />
+        </div>
+        <div className="register-form-name-input-group">
+          <h6>Last Name</h6>
+          <input
+            className="register-form-input-name"
+            type="text"
+            name="last"
+            placeholder="lastName"
+            ref={lastNameRef}
+            required
+          />
+        </div>
+      </div>
+      <div className="register-form-input-group">
+        <h6>Email</h6>
         <input
-          className="register-form-input-name"
-          type="text"
-          name="first"
-          placeholder="firstName"
-          ref={firstNameRef}
+          className="register-form-input"
+          type="email"
+          name="email"
+          placeholder="email"
+          ref={emailRef}
           required
         />
       </div>
-      <div className="register-form-name-input-group">
-        <h6>Last Name</h6>
+      <div className="register-form-input-group">
+        <h6>Password</h6>
         <input
-          className="register-form-input-name"
-          type="text"
-          name="last"
-          placeholder="lastName"
-          ref={lastNameRef}
+          className="register-form-input"
+          type="password"
+          name="password"
+          placeholder="passowrd"
+          ref={passwordRef}
           required
         />
       </div>
-    </div>
-    <div className="register-form-input-group">
-      <h6>Email</h6>
-      <input
-        className="register-form-input"
-        type="email"
-        name="email"
-        placeholder="email"
-        ref={emailRef}
-        required
-      />
-    </div>
-    <div className="register-form-input-group">
-      <h6>Password</h6>
-      <input
-        className="register-form-input"
-        type="password"
-        name="password"
-        placeholder="passowrd"
-        ref={passwordRef}
-        required
-      />
-    </div>
-    <button className="register-form-submit" onClick={handleRegisterUser}>
-      Register
-    </button>
-  </form>
+      <button className="register-form-submit" onClick={handleRegisterUser}>
+        Register
+      </button>
+      {authState.registerSuccess ? (
+        <p>
+          Register successfully
+          <span className="register-form-login" onClick={toggleLoginRegister}>
+            Login here
+          </span>
+        </p>
+      ) : (
+        <></>
+      )}
+    </form>
   );
 };

@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import { GrCatalog } from "react-icons/gr";
 
 import "./Navbar.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/ReduxStore";
 
 export const Navbar: React.FC = () => {
+  const authSate = useSelector((state: RootState)=> state.authentication);
+  console.log(authSate.loggedInUser)
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-logo-section">
-        <Book sx={{ fontSize: "3rem" }} />
+        <Book sx={{ fontSize: "3rem"}} />
         <h1>My Libary</h1>
       </Link>
       <div className="navbar-option-section">

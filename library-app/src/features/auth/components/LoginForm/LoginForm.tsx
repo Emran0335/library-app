@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
 import { loginUser } from "../../../../redux/slices/AuthenticationSlice";
 
-const LoginForm: React.FC = () => {
+export const LoginForm: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -28,6 +28,11 @@ const LoginForm: React.FC = () => {
   return (
     <form className="login-form">
       <h2>Please Login</h2>
+      {auth.error ? (
+        <p className="login-form-error">Username or password incorrect</p>
+      ) : (
+        <></>
+      )}
       <div className="login-form-input-group">
         <h6>Email</h6>
         <input
@@ -57,4 +62,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+
