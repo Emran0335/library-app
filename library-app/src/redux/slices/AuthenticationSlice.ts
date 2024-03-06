@@ -1,24 +1,27 @@
-import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, RegisterUserPayload, User } from "../../models/User";
 
-interface AuthenticationSliceState {
-  registeredUser: User | undefined;
+import {
+  LoginUserPayload,
+  RegisterUserPayload,
+  User,
+} from "../../models/User";
+
+import axios from "axios";
+
+interface AuthenticationsSliceState {
   loggedInUser: User | undefined;
   loading: boolean;
   error: boolean;
   registerSuccess: boolean;
 }
 
-const initialState: AuthenticationSliceState = {
-  registeredUser: undefined,
+const initialState: AuthenticationsSliceState = {
   loggedInUser: undefined,
   loading: false,
   error: false,
   registerSuccess: false,
 };
 
-// register user
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (user: RegisterUserPayload, thunkAPI) => {
@@ -26,12 +29,12 @@ export const registerUser = createAsyncThunk(
       const req = await axios.post("http://localhost:5000/auth/register", user);
       return req.data.user;
     } catch (e) {
-      thunkAPI.rejectWithValue(e);
+      return thunkAPI.rejectWithValue(e);
     }
   }
 );
 
-// login user
+
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (user: LoginUserPayload, thunkAPI) => {
@@ -44,11 +47,19 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+
 export const AuthenticationSlice = createSlice({
   name: "authentication",
   initialState,
-  reducers: {},
-
+  reducers: {
+    resetRegisterSuccess(state) {
+      state = {
+        ...state,
+        registerSuccess: false,
+      };
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     // pending logic
     builder.addCase(registerUser.pending, (state) => {
@@ -67,13 +78,12 @@ export const AuthenticationSlice = createSlice({
       };
       return state;
     });
-    // resolved logic
-    builder.addCase(registerUser.fulfilled, (state, action) => {
+    // fulfilled logic or Resolved logic
+    builder.addCase(registerUser.fulfilled, (state) => {
       state = {
         ...state,
         loading: false,
         registerSuccess: true,
-        registeredUser: action.payload,
       };
       return state;
     });
@@ -90,6 +100,7 @@ export const AuthenticationSlice = createSlice({
       state = {
         ...state,
         error: true,
+        loading: false,
       };
       return state;
     });
@@ -97,11 +108,12 @@ export const AuthenticationSlice = createSlice({
       state = {
         ...state,
         error: true,
+        loading: false
       };
       return state;
     });
   },
 });
 
-export const {} = AuthenticationSlice.actions;
+export const { resetRegisterSuccess } = AuthenticationSlice.actions;
 export default AuthenticationSlice.reducer;

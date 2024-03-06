@@ -5,7 +5,7 @@ interface ModalSliceState {
 }
 
 const initialState: ModalSliceState = {
-  displayLogin: true,
+  displayLogin: false,
 };
 
 export const ModalSlice = createSlice({

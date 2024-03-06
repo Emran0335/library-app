@@ -5,12 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
 import { loginUser } from "../../../../redux/slices/AuthenticationSlice";
 
-export const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  toggleLogin:()=>void
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({toggleLogin}) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const auth = useSelector((state: RootState) => state.authentication);
-  console.log(auth.loggedInUser);
+  console.log(auth);
   const dispatch: AppDispatch = useDispatch();
 
   const handleLoginUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,6 +62,9 @@ export const LoginForm: React.FC = () => {
       <button className="login-form-submit" onClick={handleLoginUser}>
         Login
       </button>
+      <p>Don't have an account?
+        <span className="login-form-register" onClick={toggleLogin}>Create one here</span>
+      </p>
     </form>
   );
 };

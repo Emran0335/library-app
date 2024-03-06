@@ -6,6 +6,11 @@ export type User = {
   email: string;
 };
 
+export interface LoginUserPayload {
+  email: string;
+  password: string;
+}
+
 export interface RegisterUserPayload {
   type: "ADMIN" | "EMPLOYEE" | "PATRON";
   firstName: string;
@@ -14,7 +19,7 @@ export interface RegisterUserPayload {
   password: string;
 }
 
-export interface LoginUserPayload {
-  email: string;
-  password: string;
+export interface FetchUserPayload {
+  userId: string;
+  property: "loggedInUser" | "profileUser";
 }

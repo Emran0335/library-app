@@ -1,24 +1,25 @@
-import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
-import { registerUser } from "../../../../redux/slices/AuthenticationSlice";
+import React, { useEffect, useRef } from "react";
 
 import "./RegisterForm.css";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
+import {
+  registerUser,
+  resetRegisterSuccess,
+} from "../../../../redux/slices/AuthenticationSlice";
 
-interface LoginRegisterProps {
-  toggleLoginRegister(): void;
+interface RegisterFormProps {
+  toggleRegister(): void;
 }
 
-export const RegisterForm: React.FC<LoginRegisterProps> = ({
-  toggleLoginRegister,
+export const RegisterForm: React.FC<RegisterFormProps> = ({
+  toggleRegister,
 }) => {
   const authState = useSelector((state: RootState) => state.authentication);
-  console.log(authState);
-
   const dispatch: AppDispatch = useDispatch();
-
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  const lastNameRef = useRef<HTMLInputElement>(null);
+  console.log(authState);
+  const firstRef = useRef<HTMLInputElement>(null);
+  const lastRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -26,10 +27,10 @@ export const RegisterForm: React.FC<LoginRegisterProps> = ({
     e.preventDefault();
 
     if (
-      firstNameRef &&
-      firstNameRef.current &&
-      lastNameRef &&
-      lastNameRef.current &&
+      firstRef &&
+      firstRef.current &&
+      lastRef &&
+      lastRef.current &&
       emailRef &&
       emailRef.current &&
       passwordRef &&
@@ -38,14 +39,20 @@ export const RegisterForm: React.FC<LoginRegisterProps> = ({
       dispatch(
         registerUser({
           type: "PATRON",
-          firstName: firstNameRef.current.value,
-          lastName: lastNameRef.current.value,
+          firstName: firstRef.current.value,
+          lastName: lastRef.current.value,
           email: emailRef.current.value,
           password: passwordRef.current.value,
         })
       );
     }
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetRegisterSuccess());
+    };
+  }, [dispatch]);
 
   return (
     <form className="register-form">
@@ -63,7 +70,7 @@ export const RegisterForm: React.FC<LoginRegisterProps> = ({
             type="text"
             name="first"
             placeholder="firstName"
-            ref={firstNameRef}
+            ref={firstRef}
             required
           />
         </div>
@@ -74,7 +81,7 @@ export const RegisterForm: React.FC<LoginRegisterProps> = ({
             type="text"
             name="last"
             placeholder="lastName"
-            ref={lastNameRef}
+            ref={lastRef}
             required
           />
         </div>
@@ -106,8 +113,8 @@ export const RegisterForm: React.FC<LoginRegisterProps> = ({
       </button>
       {authState.registerSuccess ? (
         <p>
-          Register successfully
-          <span className="register-form-login" onClick={toggleLoginRegister}>
+          Registered successfully.{" "}
+          <span className="register-form-login" onClick={toggleRegister}>
             Login here
           </span>
         </p>
