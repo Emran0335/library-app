@@ -12,13 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Schemas = exports.ValidationSchema = void 0;
+exports.Schemas = exports.ValidateSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
-// Validation function will be called with Schema.user.create object in the AuthRoutes file as middleware
-const ValidationSchema = (schema) => {
+// Validation function will be called with Schemas.user.create object in the AuthRoutes file as middleware
+const ValidateSchema = (schema, property) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            yield schema.validateAsync(req.body);
+            switch (property) {
+                case "query":
+                    yield schema.validateAsync(req.query);
+                    break;
+                case "params":
+                    yield schema.validateAsync(req.params);
+                    break;
+                default:
+                    yield schema.validateAsync(req.body);
+            }
             next();
         }
         catch (error) {
@@ -28,7 +37,7 @@ const ValidationSchema = (schema) => {
         }
     });
 };
-exports.ValidationSchema = ValidationSchema;
+exports.ValidateSchema = ValidateSchema;
 exports.Schemas = {
     user: {
         create: joi_1.default.object({
@@ -45,6 +54,59 @@ exports.Schemas = {
                 .regex(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)
                 .required(),
             password: joi_1.default.string().required(),
+        }),
+        userId: joi_1.default.object({
+            userId: joi_1.default.string()
+                .regex(/^[0-9a-fA-F]{24}$/)
+                .required(),
+        }),
+        update: joi_1.default.object({
+            _id: joi_1.default.string()
+                .regex(/^[0-9a-fA-F]{24}$/)
+                .required(),
+            type: joi_1.default.string().valid("ADMIN", "EMPLOYEE", "PATRON").required(),
+            firstName: joi_1.default.string().required(),
+            lastName: joi_1.default.string().required(),
+            email: joi_1.default.string()
+                .regex(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)
+                .required(),
+            password: joi_1.default.string(),
+        }),
+    },
+    book: {
+        create: joi_1.default.object({
+            barcode: joi_1.default.string()
+                .regex(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/)
+                .required(),
+            cover: joi_1.default.string().required(),
+            title: joi_1.default.string().required(),
+            authors: joi_1.default.array().required(),
+            description: joi_1.default.string().required(),
+            subjects: joi_1.default.array().required(),
+            publicationDate: joi_1.default.date().required(),
+            publisher: joi_1.default.string().required(),
+            pages: joi_1.default.number().required(),
+            genre: joi_1.default.string().required(),
+        }),
+        update: joi_1.default.object({
+            _id: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/),
+            barcode: joi_1.default.string()
+                .regex(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/)
+                .required(),
+            cover: joi_1.default.string().required(),
+            title: joi_1.default.string().required(),
+            authors: joi_1.default.array().required(),
+            description: joi_1.default.string().required(),
+            subjects: joi_1.default.array().required(),
+            publicationDate: joi_1.default.date().required(),
+            publisher: joi_1.default.string().required(),
+            pages: joi_1.default.number().required(),
+            genre: joi_1.default.string().required(),
+        }),
+        delete: joi_1.default.object({
+            barcode: joi_1.default.string()
+                .regex(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/)
+                .required(),
         }),
     },
 };

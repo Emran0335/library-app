@@ -4,7 +4,31 @@ export class UnableToSaveUserError extends Error {
   }
 }
 
-export class InvalidUserNameOrPasswordError extends Error {
+export class InvalidUsernameOrPasswordError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class UserDoesNotExistError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class BookDoesNotExistError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class LibraryCardDoesNotExistError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class LoanRecordDoesNotExistError extends Error {
   constructor(message: string) {
     super(message);
   }

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
 import { useDispatch, useSelector } from "react-redux";
-import { setDisplayLogin } from "../../../../redux/slices/ModalSlice";
-import { Modal } from "../../../../components";
-import { RegisterForm } from "../RegisterForm/RegisterForm";
-import { LoginForm } from "../LoginForm/LoginForm";
+import { Modal } from "../../../../../components";
+import { AppDispatch, RootState } from "../../../../../redux/ReduxStore";
+import { setDisplayLogin } from "../../../../../redux/slices/ModalSlice";
+import { LoginForm } from "../../Forms/LoginForm/LoginForm";
+import { RegisterForm } from "../../Forms/RegisterForm/RegisterForm";
 
 export const LoginRegisterModal: React.FC = () => {
   const [login, setLogin] = useState<boolean>(true);
 
   const authState = useSelector((state: RootState) => state.authentication);
-  console.log(authState);
+  console.log(authState.loggedInUser)
 
   const dispatch: AppDispatch = useDispatch();
 

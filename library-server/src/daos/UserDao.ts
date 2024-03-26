@@ -6,7 +6,7 @@ export interface IUserModel extends IUser, Document {
   id: string;
 }
 
-const userSchema = new Schema(
+const userSchema: Schema = new Schema(
   {
     type: { type: String, required: true },
     firstName: { type: String, required: true },

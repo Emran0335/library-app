@@ -23,3 +23,10 @@ export interface FetchUserPayload {
   userId: string;
   property: "loggedInUser" | "profileUser";
 }
+
+export interface UsersData<User> {
+  message: string;
+  users: User[];
+}
+
+

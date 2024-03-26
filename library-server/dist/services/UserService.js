@@ -12,49 +12,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.register = void 0;
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const config_1 = require("../config");
+exports.findUserById = exports.findAllUsers = void 0;
 // error handling
 const LibraryErrors_1 = require("../utils/LibraryErrors");
 const UserDao_1 = __importDefault(require("../daos/UserDao"));
-// register a user
-function register(user) {
+// get all users from the database;
+function findAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
-        const ROUNDS = config_1.config.server.rounds;
         try {
-            const hashedPassword = yield bcrypt_1.default.hash(user.password, ROUNDS);
-            const saved = new UserDao_1.default(Object.assign(Object.assign({}, user), { password: hashedPassword }));
-            return yield saved.save();
+            const users = yield UserDao_1.default.find();
+            return users;
         }
         catch (error) {
-            throw new LibraryErrors_1.UnableToSaveUserError(error.message);
+            return [];
         }
     });
 }
-exports.register = register;
-// login a user
-function login(credentials) {
+exports.findAllUsers = findAllUsers;
+// get only the user through matching the _id from the db
+function findUserById(userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { email, password } = credentials;
         try {
-            const user = yield UserDao_1.default.findOne({ email });
-            if (!user) {
-                throw new LibraryErrors_1.InvalidUserNameOrPasswordError("Invalid username or password");
-            }
-            else {
-                const validPassword = yield bcrypt_1.default.compare(password, user.password);
-                if (validPassword) {
-                    return user;
-                }
-                else {
-                    throw new LibraryErrors_1.InvalidUserNameOrPasswordError("Invalid username or password");
-                }
-            }
+            const user = yield UserDao_1.default.findById(userId);
+            if (user)
+                return user;
+            throw new LibraryErrors_1.UserDoesNotExistError("User does not exist with this ID");
         }
         catch (error) {
             throw error;
         }
     });
 }
-exports.login = login;
+exports.findUserById = findUserById;

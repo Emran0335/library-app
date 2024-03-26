@@ -2,55 +2,27 @@ import bcrypt from "bcrypt";
 import { config } from "../config";
 
 // error handling
-import {
-  InvalidUserNameOrPasswordError,
-  UnableToSaveUserError,
-} from "../utils/LibraryErrors";
+import { UserDoesNotExistError } from "../utils/LibraryErrors";
 
 import UserDao, { IUserModel } from "../daos/UserDao";
-import { IUser } from "../models/User";
 
-// register a user
-export async function register(user: IUser): Promise<IUserModel> {
-  const ROUNDS = config.server.rounds;
-
+// get all users from the database;
+export async function findAllUsers(): Promise<IUserModel[]> {
   try {
-    const hashedPassword = await bcrypt.hash(user.password, ROUNDS);
-
-    const saved = new UserDao({
-      ...user,
-      password: hashedPassword,
-    });
-
-    return await saved.save();
-  } catch (error: any) {
-    throw new UnableToSaveUserError(error.message);
+    const users = await UserDao.find();
+    return users;
+  } catch (error) {
+    return [];
   }
 }
 
-// login a user
-export async function login(credentials: {
-  email: string;
-  password: string;
-}): Promise<IUserModel> {
-  const { email, password } = credentials;
-
+// get only the user through matching the _id from the db
+export async function findUserById(userId: string): Promise<IUserModel> {
   try {
-    const user = await UserDao.findOne({ email });
+    const user = await UserDao.findById(userId);
+    if (user) return user;
 
-    if (!user) {
-      throw new InvalidUserNameOrPasswordError("Invalid username or password");
-    } else {
-      const validPassword = await bcrypt.compare(password, user.password);
-
-      if (validPassword) {
-        return user;
-      } else {
-        throw new InvalidUserNameOrPasswordError(
-          "Invalid username or password"
-        );
-      }
-    }
+    throw new UserDoesNotExistError("User does not exist with this ID");
   } catch (error: any) {
     throw error;
   }

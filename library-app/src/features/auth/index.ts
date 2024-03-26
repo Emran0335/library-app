@@ -1,5 +1,3 @@
-import { LoginForm } from "./components/LoginForm/LoginForm";
-import { RegisterForm } from "./components/RegisterForm/RegisterForm";
-import {LoginRegisterModal} from "./components/LoginRegisterModal/LoginRegisterModal"
+import { LoginRegisterModal } from "./components/Modals/LoginRegisterModal/LoginRegisterModal";
 
-export { LoginForm, RegisterForm, LoginRegisterModal };
+export { LoginRegisterModal };

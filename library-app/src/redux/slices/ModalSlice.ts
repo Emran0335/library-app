@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ModalSliceState {
   displayLogin: boolean;
+  displayLibraryCard: boolean;
 }
 
 const initialState: ModalSliceState = {
   displayLogin: false,
+  displayLibraryCard: false,
 };
 
 export const ModalSlice = createSlice({
@@ -19,8 +21,15 @@ export const ModalSlice = createSlice({
       };
       return state;
     },
+    setDisplayLibraryCard: (state, action: PayloadAction<boolean>) => {
+      state = {
+        ...state,
+        displayLibraryCard: action.payload,
+      };
+      return state;
+    },
   },
 });
 
-export const { setDisplayLogin } = ModalSlice.actions;
+export const { setDisplayLogin, setDisplayLibraryCard } = ModalSlice.actions;
 export default ModalSlice.reducer;

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
 
-import "./RegisterForm.css";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../redux/ReduxStore";
+import { AppDispatch, RootState } from "../../../../../redux/ReduxStore";
 import {
   registerUser,
   resetRegisterSuccess,
-} from "../../../../redux/slices/AuthenticationSlice";
+} from "../../../../../redux/slices/AuthenticationSlice";
+import "./RegisterForm.css";
 
 interface RegisterFormProps {
   toggleRegister(): void;

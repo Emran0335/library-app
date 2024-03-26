@@ -9,8 +9,7 @@ import { setDisplayLogin } from "../../../redux/slices/ModalSlice";
 
 export const Navbar: React.FC = () => {
   const authSate = useSelector((state: RootState) => state.authentication);
-  const authModal = useSelector((state:RootState)=> state.modal)
-  console.log(authModal)
+
   console.log(authSate.loggedInUser);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,9 +20,10 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  const toggleLoginRegister = () => {
+  const toggleLogin = () => {
     dispatch(setDisplayLogin(true));
   };
+
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-logo-section">
@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
             <h2>{authSate.loggedInUser.firstName}'s Account</h2>
           </div>
         ) : (
-          <div className="navbar-option" onClick={toggleLoginRegister}>
+          <div className="navbar-option" onClick={toggleLogin}>
             <h2>Login</h2>
           </div>
         )}

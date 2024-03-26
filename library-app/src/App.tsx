@@ -5,13 +5,28 @@ import CatalogPage from "./pages/CatalogPage/CatalogPage";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./redux/ReduxStore";
 import { useEffect } from "react";
+import { fetchUser } from "./redux/slices/AuthenticationSlice";
 
 function App() {
   const loggedInUser = useSelector(
     (state: RootState) => state.authentication.loggedInUser
   );
+  console.log(loggedInUser);
+
   const dispatch: AppDispatch = useDispatch();
 
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    console.log(userId)
+    if (userId && !loggedInUser) {
+      dispatch(
+        fetchUser({
+          userId: userId,
+          property: "loggedInUser",
+        })
+      );
+    }
+  }, [loggedInUser, dispatch]);
   return (
     <BrowserRouter>
       <Routes>
