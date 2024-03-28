@@ -1,7 +1,7 @@
 export function generateRandomGenres(): string[] {
   const choices = [
     "Non-Fiction",
-    "childrens",
+    "Childrens",
     "Fantasy",
     "Fiction",
     "Biography",

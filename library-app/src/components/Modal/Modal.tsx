@@ -6,7 +6,6 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ toggleModal, content }) => {
-  
   return (
     <div className="modal-bg">
       <div className="modal">

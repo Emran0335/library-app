@@ -32,7 +32,7 @@ export const LoginRegisterModal: React.FC = () => {
     <Modal
       content={
         login ? (
-          <LoginForm toggleLogin={toggle} />
+          <LoginForm toggleLogin={toggle} closeModal={closeModal}/>
         ) : (
           <RegisterForm toggleRegister={toggle} />
         )

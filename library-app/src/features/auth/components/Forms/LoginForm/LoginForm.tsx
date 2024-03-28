@@ -7,9 +7,13 @@ import { loginUser } from "../../../../../redux/slices/AuthenticationSlice";
 
 interface LoginFormProps {
   toggleLogin: () => void;
+  closeModal: () => void;
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ toggleLogin }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({
+  toggleLogin,
+  closeModal,
+}) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -26,6 +30,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ toggleLogin }) => {
         })
       );
     }
+    closeModal();
   };
 
   return (

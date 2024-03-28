@@ -30,10 +30,14 @@ export const CatalogOverView: React.FC = () => {
             Browse our selected books below, or search for something using the
             top navigation bar
           </h4>
-          {genres.map((genre)=> {
+          {genres.map((genre) => {
             return (
-              <CatalogOverViewSection key={genre} books={getRandomBookByGenre(genre, bookState.books)} label={genre} />
-            )
+              <CatalogOverViewSection
+                key={genre}
+                books={getRandomBookByGenre(genre, bookState.books)}
+                label={genre}
+              />
+            );
           })}
         </div>
       ) : (
