@@ -4,7 +4,7 @@
 ## 02. sudo docker exec -it mongodb(database's name) mongosh
 ## We have to enter the password of the commputer's user
 ## use libDB(document's name->put a name for the mongodb compass)
-## db.createUser({user:"emran", pwd:"0335", roles:[{role:"readWrite", db.libDB}]})
+## db.createUser({user:"emran", pwd:"0335", roles:[{role:"readWrite", db:"libDB"}]})
 ## Then we open the mongodb compass
 ## New connection and in the URI->
 ## mongodb://emran:0335@localhost:38017/libDB?authMechanism=DEFAULT
